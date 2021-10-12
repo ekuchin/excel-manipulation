@@ -10,12 +10,10 @@ public class App
         int idColumn = Integer.parseInt(args[1])-1;
         int dataColumn = Integer.parseInt(args[2])-1;
 
-        /*
-        String filename = "/home/kea/projects/excel-manipulation/test.xlsx";
-        System.out.println( "Идет анализ "+filename );
-        int idColumn = 0; int dataColumn = 4;
+        //String filename = "/home/kea/projects/excel-manipulation/test.xlsx";
+        //int idColumn = 0; int dataColumn = 4;
 
-         */
+        System.out.println( "Идет анализ "+filename+"..." );
 
         Excel excel = new Excel(filename);
 
@@ -24,10 +22,9 @@ public class App
         String curr_id = header_id;
         String curr_data = header_data;
 
-        String prev_id="";String prev_data="";
-
+        String prev_id;String prev_data;
+        String log;
         FileWriter fileWriter = new FileWriter(filename+".report");
-        PrintWriter printWriter = new PrintWriter(fileWriter);
 
         for (int i=1; i<excel.getRowCount();i++){
             prev_id=curr_id;
@@ -36,11 +33,13 @@ public class App
             curr_data=excel.getCellValueString(excel.getCell(i,dataColumn));
             if (curr_id.equals(prev_id) && !curr_data.equals(prev_data)){
                 //<Заголовок> <id> соответствуют значения <curr_data> <prev_data>
-                printWriter.printf("%s %s соответствуют значения %s %s и %s \n",
+                log = String.format("%s %s соответствуют значения %s %s и %s \n",
                         header_id, curr_id, header_data, curr_data, prev_data);
+                fileWriter.write(log);
+                System.out.print(log);
             }
         }
-        printWriter.close();
+        fileWriter.close();
 
     }
 }
